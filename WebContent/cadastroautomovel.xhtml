@@ -10,6 +10,23 @@
 	<h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
 </h:head>
 <h:body styleClass="container-fluid">
+	<div>
+		<h:form>
+			<h:commandButton value="Acessar Login"
+				action="#{menuController.goToLogin}">
+				<f:ajax execute="@this" render="@all"></f:ajax>
+			</h:commandButton>
+			<h:commandButton value="Cadastrar Automovel"
+				action="#{menuController.goToCadastrar}">
+				<f:ajax execute="@this" render="@all"></f:ajax>
+			</h:commandButton>
+			<h:commandButton value="Menu" action="#{menuController.goMenu}">
+				<f:ajax execute="@this" render="@all"></f:ajax>
+			</h:commandButton>
+
+		</h:form>
+
+	</div>
 	<div class="w-50 p-3">
 		<h1>Projeto Concessionaria Vinícius</h1>
 		<div>
@@ -70,9 +87,19 @@
 							<div class="col">
 								<h:selectOneMenu id="cacorroceriaInput"
 									value="#{storeController.vehicle.tipo}">
-									<f:selectItems value="#{storeController.listaCarroceria}"
+									<f:selectItems value="#{storeController.listTypes}"
 										itemLabel="#{objeto.label}" var="objeto"></f:selectItems>
 								</h:selectOneMenu>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col">
+								<h:selectOneRadio id="EstadoInput"
+									value="#{storeController.vehicle.estadoDeConservacao}">
+									<f:selectItems value="#{storeController.listStates}"
+										itemLabel="#{objeto.label}" var="objeto"></f:selectItems>
+								</h:selectOneRadio>
 							</div>
 						</div>
 
@@ -124,6 +151,10 @@
 							<h:column>
 								<f:facet name="header">Tipo</f:facet>
 								<h:outputLabel value="#{obj.tipo}"></h:outputLabel>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Estado De Conservação</f:facet>
+								<h:outputLabel value="#{obj.estadoDeConservacao}"></h:outputLabel>
 							</h:column>
 							<h:column>
 								<h:commandButton styleClass="btn btn-primary"

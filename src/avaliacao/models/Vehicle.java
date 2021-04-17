@@ -18,13 +18,15 @@ public class Vehicle {
 	private LocalDate dataLancamento;
 	@NotNull
 	private String modelo;
-	
 	private Types tipo;
+	private Estado estadoDeConservacao;
+
+
 
 	@Override
 	public String toString() {
-		return "Vehicle [id=" + id + ", valor=" + valor + ", cor=" + cor + ", ano=" + dataLancamento + ", modelo=" + modelo
-				+ ", tipo=" + tipo + "]";
+		return "Vehicle [id=" + id + ", valor=" + valor + ", cor=" + cor + ", dataLancamento=" + dataLancamento
+				+ ", modelo=" + modelo + ", tipo=" + tipo + ", estadoDeConservacao=" + estadoDeConservacao + "]";
 	}
 
 	public Integer getId() {
@@ -75,6 +77,14 @@ public class Vehicle {
 
 	public void setTipo(Types tipo) {
 		this.tipo = tipo;
+	}
+
+	public Estado getEstadoDeConservacao() {
+		return estadoDeConservacao;
+	}
+
+	public void setEstadoDeConservacao(Estado estadoDeConservacao) {
+		this.estadoDeConservacao = estadoDeConservacao;
 	}
 
 

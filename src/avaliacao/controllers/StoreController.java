@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import avaliacao.models.Estado;
 import avaliacao.models.Types;
 import avaliacao.models.Vehicle;
 
@@ -24,8 +25,12 @@ public class StoreController implements Serializable {
 	private List<Vehicle> listVehicles;
 	private Integer id = 0;
 
-	public Types[] getListaCarroceria() {
+	public Types[] getListTypes() {
 		return Types.values();
+	}
+
+	public Estado[] getListStates() {
+		return Estado.values();
 	}
 
 	public void insert() {
@@ -38,6 +43,23 @@ public class StoreController implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Inclusão realizada com sucesso", null));
 
+	}
+
+	public String goToLogin() {
+
+		return "login";
+	}
+
+	public String goMenu() {
+		return "menu";
+	}
+
+	public String goToCadastrar() {
+		return "cadastroautomovel";
+	}
+
+	public String goToSistemaEmConstrucao() {
+		return "sistemaemconstrucao";
 	}
 
 	public void select(Vehicle vehicle) {
