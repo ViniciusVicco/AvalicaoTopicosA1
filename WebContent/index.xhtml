@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
+<h:head>
+	<meta charset="utf-8" name="viewport"
+		content="width=device-width, initial-scale=1"
+		http-equiv="X-UA-Conpatible" />
+	<title>Hello, World!</title>
+	<h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+</h:head>
+<h:body styleClass="container-fluid">
+	<div class="w-50 p-3">
+		<h1>Projeto Concessionaria Vinícius</h1>
+		<div>
+			<div id="inputFields">
+				<div
+					class="d-flex justify-content-md-center align-items-start vh-100">
+					<h:form id="formInput">
+						<div class="row">
+							<div class="col">
+								<h:outputLabel value="Valor"></h:outputLabel>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<h:inputText id="valor" value="#{storeController.vehicle.valor}"></h:inputText>
+							</div>
+						</div>
+						<div class="col">
+							<h:outputLabel value="Cor"></h:outputLabel>
+						</div>
+
+						<div class="row">
+							<div class="col">
+								<h:inputText id="cor" value="#{storeController.vehicle.cor}"
+									required="true" requiredMessage="Campo Cor, pode ser vazio"></h:inputText>
+							</div>
+						</div>
+						<div class="col">
+							<h:outputLabel value="Ano"></h:outputLabel>
+						</div>
+
+						<div class="row">
+							<div class="col">
+								<h:inputText id="ano"
+									value="#{storeController.vehicle.dataLancamento}"
+									required="true"
+									requiredMessage="Campo data de lançamento, pode ser vazio">
+									<f:convertDateTime pattern="dd/MM/yyyy" type="localDate"
+										locale="pt_BR"></f:convertDateTime>
+								</h:inputText>
+							</div>
+						</div>
+						<div class="col">
+							<h:outputLabel value="Modelo"></h:outputLabel>
+						</div>
+
+						<div class="row">
+							<div class="col">
+								<h:inputText id="modelo"
+									value="#{storeController.vehicle.modelo}"></h:inputText>
+							</div>
+						</div>
+						<div class="col">
+							<h:outputLabel value="Tipo"></h:outputLabel>
+						</div>
+
+						<div class="row">
+							<div class="col">
+								<h:selectOneMenu id="cacorroceriaInput"
+									value="#{storeController.vehicle.tipo}">
+									<f:selectItems value="#{storeController.listaCarroceria}"
+										itemLabel="#{objeto.label}" var="objeto"></f:selectItems>
+								</h:selectOneMenu>
+							</div>
+						</div>
+
+
+						<div class="container">
+							<h:commandButton disabled="#{storeController.vehicle.id != null}"
+								styleClass="btn btn-primary" value="Inserir">
+								<f:ajax listener="#{storeController.insert}" execute="formInput"
+									render="@all" event="click">
+								</f:ajax>
+							</h:commandButton>
+
+							<h:commandButton styleClass="btn btn-warning"
+								disabled="#{storeController.vehicle.id == null}" value="Alterar">
+								<f:ajax listener="#{storeController.edit}" execute="@all"
+									render="@all" event="click"></f:ajax>
+							</h:commandButton>
+
+
+
+
+						</div>
+						<h:messages>
+						</h:messages>
+					</h:form>
+					<h:form id="formDataTable">
+						<h:dataTable id="dataTable"
+							value="#{storeController.listVehicles}" var="obj">
+							<h:column>
+								<f:facet name="header">Id</f:facet>
+								<h:outputLabel value="#{obj.id}"></h:outputLabel>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Valor</f:facet>
+								<h:outputLabel value="#{obj.valor}"></h:outputLabel>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Cor</f:facet>
+								<h:outputLabel value="#{obj.cor}"></h:outputLabel>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Ano</f:facet>
+								<h:outputLabel value="#{obj.dataLancamento}"></h:outputLabel>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Modelo</f:facet>
+								<h:outputLabel value="#{obj.modelo}"></h:outputLabel>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Tipo</f:facet>
+								<h:outputLabel value="#{obj.tipo}"></h:outputLabel>
+							</h:column>
+							<h:column>
+								<h:commandButton styleClass="btn btn-primary"
+									disabled="#{storeController.vehicle.id != null}"
+									value="Selecionar">
+									<f:ajax listener="#{storeController.select(obj)}"
+										execute="formDataTable" render="formInput formDataTable"></f:ajax>
+								</h:commandButton>
+							</h:column>
+							<h:column>
+								<h:commandButton styleClass="btn btn-danger"
+									disabled="#{storeController.vehicle.id == null}"
+									value="Excluir">
+									<f:ajax listener="#{storeController.remove(obj)}"
+										execute="@all" render="formInput formDataTable" event="click"></f:ajax>
+								</h:commandButton>
+							</h:column>
+							<h:column>
+								<h:commandButton styleClass="btn btn-primary" value="Limpar"
+									actionListener="#{storeController.clear}">
+									<f:ajax execute="@all" render="@all"></f:ajax>
+								</h:commandButton>
+							</h:column>
+
+
+						</h:dataTable>
+					</h:form>
+				</div>
+			</div>
+
+
+
+		</div>
+
+		<!-- 
+
+
+				<h:outputLabel value="Tipo"></h:outputLabel>
+				<h:inputText id="tipo" value="#{storeController.vehicle.tipo}"></h:inputText>
+
+				<h:commandButton styleClass="btn btn-primary" value="Inserir">
+					<f:ajax></f:ajax>
+				</h:commandButton>
+ -->
+
+
+
+		<div class="form-group"></div>
+
+
+	</div>
+
+
+</h:body>
+</html>
