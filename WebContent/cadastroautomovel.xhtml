@@ -72,11 +72,18 @@
 						<div class="col">
 							<h:outputLabel value="Modelo"></h:outputLabel>
 						</div>
-
 						<div class="row">
 							<div class="col">
 								<h:inputText id="modelo"
 									value="#{storeController.vehicle.modelo}"></h:inputText>
+							</div>
+						</div>
+						<div class="col">
+							<h:outputLabel value="marca"></h:outputLabel>
+						</div>
+						<div class="row">
+							<div class="col">
+								<h:inputText id="marca" value="#{storeController.vehicle.marca}"></h:inputText>
 							</div>
 						</div>
 						<div class="col">
@@ -146,15 +153,19 @@
 							</h:column>
 							<h:column>
 								<f:facet name="header">Modelo</f:facet>
+								<h:outputLabel value="#{obj.marca}"></h:outputLabel>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Modelo</f:facet>
 								<h:outputLabel value="#{obj.modelo}"></h:outputLabel>
 							</h:column>
 							<h:column>
 								<f:facet name="header">Tipo</f:facet>
-								<h:outputLabel value="#{obj.tipo}"></h:outputLabel>
+								<h:outputLabel value="#{obj.tipo.label}"></h:outputLabel>
 							</h:column>
 							<h:column>
 								<f:facet name="header">Estado De Conservação</f:facet>
-								<h:outputLabel value="#{obj.estadoDeConservacao}"></h:outputLabel>
+								<h:outputLabel value="#{obj.estadoDeConservacao.label}"></h:outputLabel>
 							</h:column>
 							<h:column>
 								<h:commandButton styleClass="btn btn-primary"
