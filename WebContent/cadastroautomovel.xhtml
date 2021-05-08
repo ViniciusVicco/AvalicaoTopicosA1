@@ -114,7 +114,7 @@
 						<div class="container">
 							<h:commandButton disabled="#{storeController.vehicle.id != null}"
 								styleClass="btn btn-primary" value="Inserir">
-								<f:ajax listener="#{storeController.insert}" execute="formInput"
+								<f:ajax listener="#{storeController.insert}" execute="@all"
 									render="@all" event="click">
 								</f:ajax>
 							</h:commandButton>

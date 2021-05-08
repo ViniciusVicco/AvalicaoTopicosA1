@@ -14,6 +14,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import avaliacao.dao.DAO;
+import avaliacao.dao.VehicleDAO;
 import avaliacao.models.Estado;
 import avaliacao.models.Types;
 import avaliacao.models.Vehicle;
@@ -39,40 +41,16 @@ public class StoreController implements Serializable {
 
 	public void insert() {
 		System.out.println("Inserindo");
-		Connection conn = StoreController.getConnection();
-		StringBuffer sql = new StringBuffer();
-		sql.append("INSERT INTO veiculo ");
-		sql.append("(valor, cor, modelo, marca, tipo, estado) ");
-		sql.append("VALUES ");
-		sql.append(" (?, ?, ?, ?, ?, ? ) ");
-		PreparedStatement stat = null;
-		try {
-			stat = conn.prepareStatement(sql.toString());
 
-			stat.setInt(1, getVehicle().getValor());
-			stat.setString(2, getVehicle().getCor());
-//			stat.setDate(3, getVehicle().getDataLancamento());
-			stat.setString(3, getVehicle().getModelo());
-			stat.setString(4, getVehicle().getMarca());
-			stat.setInt(5, getVehicle().getTipo().getIndex());
-			stat.setInt(6, getVehicle().getEstadoDeConservacao().getIndex());
-			stat.execute();
+		VehicleDAO dao = new VehicleDAO();
+		if (dao.inserir(getVehicle())) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Inclusão realizada com sucesso", null));
 			clear();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				stat.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			try {
-				conn.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Inclusão realizada com sucesso", null));
 		}
 
 	}
@@ -102,23 +80,16 @@ public class StoreController implements Serializable {
 	}
 
 	public void edit() {
-		System.out.println("Alterar");
-		if (listVehicles == null) {
-			System.out.print("Lista veiculo ta nula");
+		DAO dao = new VehicleDAO();
+		setVehicle(dao.obterUm(vehicle.getId()));
+		if(dao.alterar(vehicle)) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Alteração realizada com sucesso Crud", null));
 		}
-		if (vehicle != null || listVehicles.size() == 0) {
-			int index = listVehicles.indexOf(vehicle);
-			if (index == -1) {
-				System.out.println("Objeto veiculo não foi encontrado");
-				System.out.println(listVehicles.size());
-				return;
-			} else {
-				getListVehicles().set(index, getVehicle());
-			}
-
+		else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alteração falhou", null));
 		}
-		clear();
-		return;
 	}
 
 	private static Connection getConnection() {
@@ -167,85 +138,12 @@ public class StoreController implements Serializable {
 
 	public List<Vehicle> getListVehicles() {
 		if (listVehicles == null) {
-			listVehicles = new ArrayList<Vehicle>();
-			Connection conn = StoreController.getConnection();
-			StringBuffer sql = new StringBuffer();
-			sql.append("SELECT ");
-			sql.append(" v.id, ");
-			sql.append(" v.valor, ");
-			sql.append(" v.cor, ");
-			sql.append(" v.modelo, ");
-			sql.append(" v.marca, ");
-			sql.append(" v.tipo, ");
-			sql.append(" v.estado ");
-			sql.append("FROM ");
-			sql.append(" veiculo v");
-			PreparedStatement stat = null;
-			try {
-				stat = conn.prepareStatement(sql.toString());
-				ResultSet rs = stat.executeQuery();
-				while (rs.next()) {
-					Vehicle vehicle = new Vehicle();
-					vehicle.setId(rs.getInt("id"));
-					vehicle.setValor(rs.getInt("valor"));
-					vehicle.setCor(rs.getString("cor"));
-					vehicle.setModelo(rs.getString("modelo"));
-					vehicle.setMarca(rs.getString("marca"));
-					switch (rs.getInt("tipo")) {
-					case 1:
-						vehicle.setTipo(Types.CARRO);
-						break;
-					case 2:
-						vehicle.setTipo(Types.MOTOCICLETA);
-						break;
-					case 3:
-						vehicle.setTipo(Types.PICAPE);
-						break;
-					case 4:
-						vehicle.setTipo(Types.UTILITARIO);
-						break;
-					default:
-						vehicle.setTipo(Types.CARRO);
-						break;
-					}
-					switch (rs.getInt("estado")) {
-
-					case 1:
-						vehicle.setEstadoDeConservacao(Estado.EXCELENTE);
-						break;
-					case 2:
-						vehicle.setEstadoDeConservacao(Estado.BOM);
-						break;
-					case 3:
-						vehicle.setEstadoDeConservacao(Estado.FUNCIONAL);
-						break;
-					case 4:
-						vehicle.setEstadoDeConservacao(Estado.RUIM);
-						break;
-					case 5:
-						vehicle.setEstadoDeConservacao(Estado.PESSIMO);
-						break;
-					default:
-						vehicle.setEstadoDeConservacao(Estado.BOM);
-						break;
-					}
-					listVehicles.add(vehicle);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				try {
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				try {
-					conn.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+			VehicleDAO dao = new VehicleDAO();
+			listVehicles = dao.obterTodos();
+			if(listVehicles == null) {
+				listVehicles = new ArrayList<Vehicle>();
 			}
-
+			
 		}
 		return listVehicles;
 	}
