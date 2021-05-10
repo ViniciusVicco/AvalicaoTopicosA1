@@ -74,40 +74,23 @@ public class StoreController implements Serializable {
 
 	public void select(Vehicle vehicle) {
 
-		System.out.println("Selecionado " + vehicle);
-		setVehicle(vehicle);
+		DAO dao = new VehicleDAO();
+
+		setVehicle(dao.obterUm(vehicle.getId()));
 
 	}
 
 	public void edit() {
 		DAO dao = new VehicleDAO();
-		setVehicle(dao.obterUm(vehicle.getId()));
-		if(dao.alterar(vehicle)) {
+		// Ta buscando do banco sempre e não alterando
+		if (dao.alterar(getVehicle())) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Alteração realizada com sucesso Crud", null));
-		}
-		else {
+			listVehicles = dao.obterTodos();
+		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alteração falhou", null));
 		}
-	}
-
-	private static Connection getConnection() {
-
-		try {
-			Class.forName("org.postgresql.Driver");
-			Connection connection = null;
-			connection = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/concessionariadb", "topicos1",
-					"123456");
-			return connection;
-		} catch (ClassNotFoundException e) {
-			System.out.println("O Driver não foi encontrado.");
-			e.printStackTrace();
-		} catch (SQLException e) {
-			System.out.println("Falha na conexao com o banco de dados.");
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 	public void clear() {
@@ -116,9 +99,15 @@ public class StoreController implements Serializable {
 	}
 
 	public void remove(Vehicle vehicle) {
-		System.out.println("Excluir");
-		listVehicles.remove(vehicle);
-		clear();
+		VehicleDAO dao = new VehicleDAO();
+		
+		if(dao.remover(vehicle)== true) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Remoção realizada com sucesso Crud", null));
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Remoção falhou", null));
+		}
 	}
 
 	static void print(String params) {
@@ -140,10 +129,10 @@ public class StoreController implements Serializable {
 		if (listVehicles == null) {
 			VehicleDAO dao = new VehicleDAO();
 			listVehicles = dao.obterTodos();
-			if(listVehicles == null) {
+			if (listVehicles == null) {
 				listVehicles = new ArrayList<Vehicle>();
 			}
-			
+
 		}
 		return listVehicles;
 	}

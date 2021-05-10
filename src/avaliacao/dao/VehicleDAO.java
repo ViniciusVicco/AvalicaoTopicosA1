@@ -1,6 +1,7 @@
 package avaliacao.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,20 +20,21 @@ public class VehicleDAO implements DAO {
 		boolean hasError = true;
 		StringBuffer sql = new StringBuffer();
 		sql.append("INSERT INTO veiculo ");
-		sql.append("(valor, cor, modelo, marca, tipo, estado) ");
+		sql.append("(valor, cor, data_lancamento, modelo, marca, tipo, estado) ");
 		sql.append("VALUES ");
-		sql.append(" (?, ?, ?, ?, ?, ? ) ");
+		sql.append(" (?, ?, ?, ?, ?, ?, ? ) ");
 		PreparedStatement stat = null;
 		try {
 			stat = conn.prepareStatement(sql.toString());
 
 			stat.setInt(1, obj.getValor());
 			stat.setString(2, obj.getCor());
-//			stat.setDate(3, getVehicle().getDataLancamento());
-			stat.setString(3, obj.getModelo());
-			stat.setString(4, obj.getMarca());
-			stat.setInt(5, obj.getTipo().getIndex());
-			stat.setInt(6, obj.getEstadoDeConservacao().getIndex());
+			Date data = Date.valueOf(obj.getDataLancamento());
+			stat.setDate(3, data);
+			stat.setString(4, obj.getModelo());
+			stat.setString(5, obj.getMarca());
+			stat.setInt(6, obj.getTipo().getIndex());
+			stat.setInt(7, obj.getEstadoDeConservacao().getIndex());
 			stat.execute();
 			hasError = false;
 		} catch (SQLException e) {
@@ -79,6 +81,7 @@ public class VehicleDAO implements DAO {
 			stat.setString(4, obj.getMarca());
 			stat.setInt(5, obj.getTipo().getIndex());
 			stat.setInt(6, obj.getEstadoDeConservacao().getIndex());
+
 			stat.setInt(7, obj.getId());
 
 			stat.execute();
@@ -105,8 +108,37 @@ public class VehicleDAO implements DAO {
 
 	@Override
 	public boolean remover(Vehicle obj) {
-		return false;
-		// TODO Auto-generated method stub
+		boolean success = true;
+		Connection conn = DAO.getConnection();
+		StringBuffer sql = new StringBuffer();
+		sql.append("DELETE ");
+		sql.append(" FROM ");
+		sql.append(" veiculo ");
+		sql.append(" WHERE");
+		sql.append(" id = ?");
+		PreparedStatement stat = null;
+		try {
+			stat = conn.prepareStatement(sql.toString());
+			stat.setInt(1, obj.getId());
+
+			ResultSet rs = stat.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				 success = false;
+			}
+			try {
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				 success = false;
+			}
+		}
+		return success;
 
 	}
 
@@ -122,12 +154,14 @@ public class VehicleDAO implements DAO {
 		sql.append(" v.id, ");
 		sql.append(" v.valor, ");
 		sql.append(" v.cor, ");
+		sql.append(" data_lancamento, ");
 		sql.append(" v.modelo, ");
 		sql.append(" v.marca, ");
 		sql.append(" v.tipo, ");
 		sql.append(" v.estado ");
 		sql.append("FROM ");
 		sql.append(" veiculo v");
+		sql.append(" ORDER BY ID ");
 		PreparedStatement stat = null;
 		try {
 			stat = conn.prepareStatement(sql.toString());
@@ -136,6 +170,9 @@ public class VehicleDAO implements DAO {
 				Vehicle vehicle = new Vehicle();
 				vehicle.setId(rs.getInt("id"));
 				vehicle.setValor(rs.getInt("valor"));
+				if (rs.getDate("data_lancamento") != null) {
+					vehicle.setDataLancamento(rs.getDate("data_lancamento").toLocalDate());
+				}
 				vehicle.setCor(rs.getString("cor"));
 				vehicle.setModelo(rs.getString("modelo"));
 				vehicle.setMarca(rs.getString("marca"));
@@ -202,10 +239,10 @@ public class VehicleDAO implements DAO {
 
 	@Override
 	public Vehicle obterUm(Integer id) {
-Connection conn = DAO.getConnection();
-		
+		Connection conn = DAO.getConnection();
+
 		Vehicle vehicle = null;
-		
+
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT ");
 		sql.append(" v.id, ");
@@ -219,15 +256,15 @@ Connection conn = DAO.getConnection();
 		sql.append(" veiculo v ");
 		sql.append("WHERE ");
 		sql.append("  v.id = ? ");
-		
+
 		PreparedStatement stat = null;
 		try {
 			stat = conn.prepareStatement(sql.toString());
 			stat.setInt(1, id);
-			
+
 			ResultSet rs = stat.executeQuery();
-			
-			if(rs.next()) {
+
+			if (rs.next()) {
 				vehicle = new Vehicle();
 				vehicle.setId(rs.getInt("id"));
 				vehicle.setValor(rs.getInt("valor"));
@@ -289,7 +326,6 @@ Connection conn = DAO.getConnection();
 				e.printStackTrace();
 			}
 		}
-		
 		return vehicle;
 	}
 
