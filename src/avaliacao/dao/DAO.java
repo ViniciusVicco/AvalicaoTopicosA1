@@ -5,15 +5,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
-import avaliacao.models.Vehicle;
 
-public interface DAO {
+public interface DAO<T> {
 	
-	public boolean inserir(Vehicle obj);
-	public boolean alterar(Vehicle obj);
-	public boolean remover(Vehicle obj);
-	public List<Vehicle> obterTodos();
-	public Vehicle obterUm(Integer id);
+	public boolean inserir(T obj);
+	public boolean alterar(T obj);
+	public boolean remover(T obj);
+	public int getCurVal();
+	public List<T> obterTodos();
+	public T obterUm(Integer id);
 	
 	public static Connection getConnection() {
 

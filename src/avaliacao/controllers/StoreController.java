@@ -15,10 +15,14 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import avaliacao.dao.DAO;
+import avaliacao.dao.PesoDAO;
 import avaliacao.dao.VehicleDAO;
 import avaliacao.models.Estado;
+import avaliacao.models.Peso;
+import avaliacao.models.TipoPeso;
 import avaliacao.models.Types;
 import avaliacao.models.Vehicle;
+import avaliacao.utils.Util;
 
 @Named
 @ViewScoped
@@ -30,9 +34,16 @@ public class StoreController implements Serializable {
 	private static final long serialVersionUID = 2904437223897869684L;
 	private Vehicle vehicle;
 	private List<Vehicle> listVehicles;
+	private Peso peso;
+	DAO vehicleDao = new VehicleDAO();
+	DAO pesoDao = new PesoDAO();
 
 	public Types[] getListTypes() {
 		return Types.values();
+	}
+	
+	public TipoPeso[] getTipoPeso() {
+		return TipoPeso.values();
 	}
 
 	public Estado[] getListStates() {
@@ -44,13 +55,12 @@ public class StoreController implements Serializable {
 
 		VehicleDAO dao = new VehicleDAO();
 		if (dao.inserir(getVehicle())) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Inclusão realizada com sucesso", null));
+			Util.addInfoMessage("Inclusão realizada com sucesso");
 			clear();
+			
 
 		} else {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Inclusão realizada com sucesso", null));
+			Util.addFatalMessage("Tivemos um problema ao inserir este registro");
 		}
 
 	}
@@ -74,22 +84,18 @@ public class StoreController implements Serializable {
 
 	public void select(Vehicle vehicle) {
 
-		DAO dao = new VehicleDAO();
-
-		setVehicle(dao.obterUm(vehicle.getId()));
-
+		setVehicle((Vehicle) 
+				vehicleDao.obterUm(vehicle.getId()));
 	}
 
 	public void edit() {
 		DAO dao = new VehicleDAO();
 		// Ta buscando do banco sempre e não alterando
 		if (dao.alterar(getVehicle())) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Alteração realizada com sucesso Crud", null));
+			Util.addInfoMessage("Alterado com sucesso");
 			listVehicles = dao.obterTodos();
 		} else {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alteração falhou", null));
+			Util.addInfoMessage("Houve um problema ao realizar essa alteração");
 		}
 	}
 
@@ -102,11 +108,10 @@ public class StoreController implements Serializable {
 		VehicleDAO dao = new VehicleDAO();
 		
 		if(dao.remover(vehicle)== true) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Remoção realizada com sucesso Crud", null));
+			Util.addInfoMessage("Remoção realizada com sucesso");
+			listVehicles = dao.obterTodos();
 		} else {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Remoção falhou", null));
+			Util.addFatalMessage("Ocorreu um erro ao remover");
 		}
 	}
 

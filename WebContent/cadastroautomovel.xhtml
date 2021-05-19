@@ -129,8 +129,12 @@
 
 
 						</div>
-						<h:messages>
-						</h:messages>
+						<h:messages id="messages" globalOnly="false"
+							errorStyle="color:red;margin:8px;"
+							infoStyle="color:green;margin:8px;"
+							warnStyle="color:yellow;margin:8px;" />
+
+
 					</h:form>
 					<h:form id="formDataTable">
 						<h:dataTable id="dataTable"
@@ -199,18 +203,6 @@
 
 
 		</div>
-
-		<!-- 
-
-
-				<h:outputLabel value="Tipo"></h:outputLabel>
-				<h:inputText id="tipo" value="#{storeController.vehicle.tipo}"></h:inputText>
-
-				<h:commandButton styleClass="btn btn-primary" value="Inserir">
-					<f:ajax></f:ajax>
-				</h:commandButton>
- -->
-
 
 
 		<div class="form-group"></div>

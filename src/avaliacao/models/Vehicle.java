@@ -20,7 +20,7 @@ public class Vehicle {
 	private String modelo;
 	private String marca;
 	private Types tipo;
-	private Integer pesoId;
+	private TipoPeso tipoPeso;
 	private Estado estadoDeConservacao;
 
 
@@ -28,7 +28,7 @@ public class Vehicle {
 	@Override
 	public String toString() {
 		return "Vehicle [id=" + id + ", valor=" + valor + ", cor=" + cor + ", dataLancamento=" + dataLancamento
-				+ ", modelo=" + modelo + ", marca=" + marca + ", tipo=" + tipo + ", pesoId=" + pesoId
+				+ ", modelo=" + modelo + ", marca=" + marca + ", tipo=" + tipo + ", pesoId="
 				+ ", estadoDeConservacao=" + estadoDeConservacao + "]";
 	}
 
@@ -55,9 +55,6 @@ public class Vehicle {
 	public void setCor(String cor) {
 		this.cor = cor;
 	}
-
-
-
 	public LocalDate getDataLancamento() {
 		return dataLancamento;
 	}
@@ -98,13 +95,14 @@ public class Vehicle {
 		this.marca = marca;
 	}
 
-	public Integer getPesoId() {
-		return pesoId;
+	public TipoPeso getTipoPeso() {
+		return tipoPeso;
 	}
 
-	public void setPesoId(Integer pesoId) {
-		this.pesoId = pesoId;
+	public void setTipoPeso(TipoPeso tipoPeso) {
+		this.tipoPeso = tipoPeso;
 	}
+
 
 
 
