@@ -20,7 +20,6 @@ public enum Tipo {
 
 
 
-
 	
 	
 	Tipo(int index, String label) {
@@ -28,4 +27,19 @@ public enum Tipo {
 		this.index = index;
 		this.label = label;
 	}
+
+	public static Tipo fromBd(int index) {
+		Tipo retorno = Tipo.COMUM;
+		switch(index) {
+		case 1:
+			retorno = Tipo.COMUM;
+			break;
+		case 2:
+			retorno = Tipo.PREMIUM;
+			break;
+		}
+		return retorno;
+	}
+
+	
 }

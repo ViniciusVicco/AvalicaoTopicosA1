@@ -36,7 +36,7 @@ public class StoreController implements Serializable {
 	private List<Vehicle> listVehicles;
 	private Peso peso;
 	DAO vehicleDao = new VehicleDAO();
-	DAO pesoDao = new PesoDAO();
+	
 
 	public Types[] getListTypes() {
 		return Types.values();

@@ -11,10 +11,6 @@
 </h:head>
 <h:body>
 	<h:form>
-		<h:commandButton value="Acessar Login"
-			action="#{menuController.goToLogin}">
-			<f:ajax execute="@this" render="@all"></f:ajax>
-		</h:commandButton>
 		<h:commandButton value="Cadastrar Automovel"
 			action="#{menuController.goToCadastrar}">
 			<f:ajax execute="@this" render="@all"></f:ajax>
@@ -30,23 +26,32 @@
 	<h1>Login</h1>
 	<div class="d-flex justify-content-md-center align-items-center vh-100">
 		<h:form>
+			<h:messages id="messages" globalOnly="false"
+				errorStyle="color:red;margin:8px;"
+				infoStyle="color:green;margin:8px;"
+				warnStyle="color:yellow;margin:8px;" />
+
+			<table class="loginTable">
 
 
-			<h:outputLabel value="CPF"></h:outputLabel>
-			<h:inputText id="emailAjax"
-				value="#{loginController.funcionarioFirst.cpf}"></h:inputText>
-			<br />
-			<h:outputLabel value="Senha"></h:outputLabel>
-			<h:inputText id="emailAjax2"
-				value="#{loginController.funcionarioFirst.senha}"></h:inputText>
-			<br />
+				<tbody>
+					<tr class="loginRow">
+						<td><h:outputLabel value="Login:"></h:outputLabel> <h:inputText
+								value="#{loginController.usuario.login}"></h:inputText></td>
 
-			<h:commandButton value="Enviar"
-				action="#{loginController.goToSistemaEmConstrucao}">
-				<f:ajax listener="#{loginController.login}" execute="@all"
-					render="@all"></f:ajax>
+					</tr>
+				</tbody>
+				<tr class="senhaRow">
+					<td><h:outputLabel value="Senha:"></h:outputLabel> <h:inputText value="#{loginController.usuario.senha}"></h:inputText>
+					</td>
+				</tr>
+				<tr class="senhaRow">
+					<td><h:commandButton value="Login" action="#{loginController.entrar}"></h:commandButton> <h:commandButton
+							value="Cadastrar-se" action="#{menuController.goToCadastrarUsuario}"></h:commandButton></td>
+				</tr>
+			</table>
 
-			</h:commandButton>
+
 
 			<h:messages>
 			</h:messages>

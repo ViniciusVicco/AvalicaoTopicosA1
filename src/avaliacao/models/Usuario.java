@@ -1,17 +1,19 @@
 package avaliacao.models;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Usuario {
 	
 	private Integer id;
 	private String cpf;
 	private String nome;
-	private Date dataNascimento;
+	private LocalDate dataNascimento;
 	private String email;
 	private String login;
 	private String senha;
 	private Tipo perfil;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -30,12 +32,7 @@ public class Usuario {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public Date getDataNascimento() {
-		return dataNascimento;
-	}
-	public void setDataNascimento(Date dataNascimento) {
-		this.dataNascimento = dataNascimento;
-	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -59,6 +56,12 @@ public class Usuario {
 	}
 	public void setPerfil(Tipo perfil) {
 		this.perfil = perfil;
+	}
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
+	}
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
 	}
 
 	

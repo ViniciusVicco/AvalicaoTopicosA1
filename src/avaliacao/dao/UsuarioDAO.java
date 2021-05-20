@@ -2,10 +2,16 @@ package avaliacao.dao;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import avaliacao.models.Estado;
+import avaliacao.models.Tipo;
+import avaliacao.models.Types;
 import avaliacao.models.Usuario;
+import avaliacao.models.Vehicle;
 public class UsuarioDAO implements DAO<Usuario> {
 
 	@Override
@@ -108,8 +114,61 @@ public class UsuarioDAO implements DAO<Usuario> {
 
 	@Override
 	public List<Usuario> obterTodos() {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conn = DAO.getConnection();
+
+		List<Usuario> listUsers = new ArrayList<Usuario>();
+
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT ");
+		sql.append(" u.id, ");
+		sql.append(" u.cpf, ");
+		sql.append(" u.nome, ");
+		sql.append(" u.data_nascimento, ");
+		sql.append(" u.email, ");
+		sql.append(" u.login, ");
+		sql.append(" u.senha, ");
+		sql.append(" u.perfil ");
+		sql.append("FROM ");
+		sql.append(" usuario u");
+		sql.append(" ORDER BY ID ");
+		PreparedStatement stat = null;
+		try {
+			stat = conn.prepareStatement(sql.toString());
+			ResultSet rs = stat.executeQuery();
+			while (rs.next()) {
+				Usuario usuario = new Usuario();
+				usuario.setId(rs.getInt("id"));
+				usuario.setCpf(rs.getString("cpf"));
+				usuario.setNome(rs.getString("nome"));
+				if (rs.getDate("data_nascimento") != null) {
+					usuario.setDataNascimento(rs.getDate("data_nascimento").toLocalDate());
+				}
+				usuario.setEmail(rs.getString("email"));
+				usuario.setLogin(rs.getString("login"));
+				usuario.setSenha(rs.getString("senha"));
+				usuario.setPerfil(Tipo.fromBd(rs.getInt("perfil")));
+			
+				listUsers.add(usuario);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				listUsers = null;
+			}
+			try {
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				listUsers = null;
+			}
+		}
+		if (listUsers == null || listUsers.isEmpty())
+			return null;
+		return listUsers;
 	}
 
 	@Override

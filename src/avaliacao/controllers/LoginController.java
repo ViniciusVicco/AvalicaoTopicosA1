@@ -19,6 +19,7 @@ import avaliacao.models.Funcionario;
 import avaliacao.models.Perfil;
 import avaliacao.models.Usuario;
 import avaliacao.models.Vehicle;
+import avaliacao.utils.Util;
 
 @Named
 @ViewScoped
@@ -33,34 +34,13 @@ public class LoginController implements Serializable {
 	private List<Usuario> listUsuario;
 	
 	public String entrar() {
-		//Adicionar o retorno tipo string para rota
+		Util.print(usuario.getLogin() + usuario.getSenha());
 		return null;
 		
 	}
 	
-	public void inserir() {
+
 		
-	}
-	
-	public void alterar() {
-		
-	}
-	
-	public void excluir() {
-		
-	}
-	
-	// Criar o obter um e obter todos ao intanciar o obj no get
-	
-	public Usuario getUsuario() {
-		if(getUsuario() == null) {
-			usuario = new Usuario();
-		}
-		return usuario;
-	}
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
 	public List<Usuario> getListUsuario() {
 		if(listUsuario == null) {
 			listUsuario = new ArrayList<Usuario>();
@@ -69,6 +49,17 @@ public class LoginController implements Serializable {
 	}
 	public void setListUsuario(List<Usuario> listUsuario) {
 		this.listUsuario = listUsuario;
+	}
+
+	public Usuario getUsuario() {
+		if(usuario == null) {
+			usuario = new Usuario();
+		}
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 	
 	

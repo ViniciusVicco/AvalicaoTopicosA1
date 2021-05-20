@@ -26,6 +26,10 @@ public class MenuController implements Serializable {
 	public String goToCadastrar() {
 		return "cadastroautomovel";
 	}
+	
+	public String goToCadastrarUsuario() {
+		return "cadastrausuario";
+	}
 
 	public String goToSistemaEmConstrucao() {
 		return "sistemaemconstrucao";

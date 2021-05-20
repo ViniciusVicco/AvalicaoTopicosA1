@@ -8,7 +8,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 public class Util {
 
-	static void print(String text) {
+	public static void print(String text) {
 		System.out.println(text);
 	}
 	
@@ -35,5 +35,6 @@ public class Util {
 	public static void addErrorMessage(String message) {
 		addMessage(message, FacesMessage.SEVERITY_ERROR, null);
 	}
+	
 
 }
