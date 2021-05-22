@@ -1,5 +1,7 @@
 package avaliacao.models;
 
+import avaliacao.enums.TipoPeso;
+
 public class Peso {
 	
 	private Integer id;

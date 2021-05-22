@@ -1,8 +1,8 @@
-package avaliacao.models;
+package avaliacao.enums;
 
-public enum Tipo {
+public enum TipoPerfil {
 
-	COMUM(1,"Comum"),
+	GRATUITO(1,"Gratuito"),
 	PREMIUM(2,"Premium");
 
 	private int index;
@@ -22,20 +22,20 @@ public enum Tipo {
 
 	
 	
-	Tipo(int index, String label) {
+	TipoPerfil(int index, String label) {
 		// TODO Auto-generated constructor stub
 		this.index = index;
 		this.label = label;
 	}
 
-	public static Tipo fromBd(int index) {
-		Tipo retorno = Tipo.COMUM;
+	public static TipoPerfil fromBd(int index) {
+		TipoPerfil retorno = TipoPerfil.GRATUITO;
 		switch(index) {
 		case 1:
-			retorno = Tipo.COMUM;
+			retorno = TipoPerfil.GRATUITO;
 			break;
 		case 2:
-			retorno = Tipo.PREMIUM;
+			retorno = TipoPerfil.PREMIUM;
 			break;
 		}
 		return retorno;

@@ -1,55 +1,196 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html">
-<h:head>
-	<meta charset="utf-8" name="viewport"
-		content="width=device-width, initial-scale=1"
-		http-equiv="X-UA-Conpatible" />
-	<title>Hello, World!</title>
-	<h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
-</h:head>
-<h:body>
-	<h1>Cadastro de usuários</h1>
-	<h:form id="formDataTable">
-		<h:dataTable id="dataTable" value="#{usuarioController.listaUsuario}"
-			var="obj">
-			<h:column>
-				<f:facet name="header">Id</f:facet>
-				<h:outputLabel value="#{obj.id}"></h:outputLabel>
-			</h:column>
-			<h:column>
-				<f:facet name="header">Cpf</f:facet>
-				<h:outputLabel value="#{obj.cpf}"></h:outputLabel>
-			</h:column>
-			<h:column>
-				<f:facet name="header">Nome</f:facet>
-				<h:outputLabel value="#{obj.nome}"></h:outputLabel>
-			</h:column>
-			<h:column>
-				<f:facet name="header">Data De Nascimento</f:facet>
-				<h:outputLabel value="#{obj.dataNascimento}"></h:outputLabel>
-			</h:column>
-			<h:column>
-				<f:facet name="header">E-mail</f:facet>
-				<h:outputLabel value="#{obj.email}"></h:outputLabel>
-			</h:column>
-			<h:column>
-				<f:facet name="header">Login</f:facet>
-				<h:outputLabel value="#{obj.login}"></h:outputLabel>
-			</h:column>
-			<h:column>
-				<f:facet name="header">Senha</f:facet>
-				<h:outputLabel value="#{obj.senha}"></h:outputLabel>
-			</h:column>
-			<h:column>
-				<f:facet name="header">Perfil</f:facet>
-				<h:outputLabel value="#{obj.perfil.label}"></h:outputLabel>
-			</h:column>
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<ui:composition template="/geraTemplate.xhtml">
+	<h:head>
+		<meta charset="utf-8" name="viewport"
+			content="width=device-width, initial-scale=1"
+			http-equiv="X-UA-Conpatible" />
+		<title>Hello, World!</title>
+		<h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+	</h:head>
+	<ui:define name="conteudo">
+		<h:body>
+
+			<div class="w-50 p-3">
+				<h1>Cadastre-se</h1>
+				<div>
+					<div id="inputFields">
+						<div
+							class="d-flex justify-content-md-center align-items-start vh-100">
+							<h:form id="formInput">
+								<div class="row">
+									<div class="col">
+										<h:outputLabel value="Cpf"></h:outputLabel>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<h:inputText id="cpf" value="#{usuarioController.usuario.cpf}"></h:inputText>
+									</div>
+								</div>
+								<div class="col">
+									<h:outputLabel value="Nome"></h:outputLabel>
+								</div>
+
+								<div class="row">
+									<div class="col">
+										<h:inputText id="nome"
+											value="#{usuarioController.usuario.nome}" required="true"
+											requiredMessage="Campo Cor, pode ser vazio"></h:inputText>
+									</div>
+								</div>
+								<div class="col">
+									<h:outputLabel value="Data de nascimento"></h:outputLabel>
+								</div>
+
+								<div class="row">
+									<div class="col">
+										<h:inputText id="dataNascimento"
+											value="#{usuarioController.usuario.dataNascimento}"
+											requiredMessage="Campo data de lançamento, pode ser vazio">
+											<f:convertDateTime pattern="dd/MM/yyyy" type="localDate"
+												locale="pt_BR"></f:convertDateTime>
+										</h:inputText>
+									</div>
+								</div>
+								<div class="col">
+									<h:outputLabel value="E-mail"></h:outputLabel>
+								</div>
+								<div class="row">
+									<div class="col">
+										<h:inputText id="email"
+											value="#{usuarioController.usuario.email}"></h:inputText>
+									</div>
+								</div>
+								<div class="col">
+									<h:outputLabel value="Login"></h:outputLabel>
+								</div>
+								<div class="row">
+									<div class="col">
+										<h:inputText id="login"
+											value="#{usuarioController.usuario.login}"></h:inputText>
+									</div>
+								</div>
+								<div class="col">
+									<h:outputLabel value="Senha"></h:outputLabel>
+								</div>
+								<div class="row">
+									<div class="col">
+										<h:inputText id="senha"
+											value="#{usuarioController.usuario.senha}"></h:inputText>
+									</div>
+								</div>
 
 
-		</h:dataTable>
-	</h:form>
 
-</h:body>
+
+
+
+
+								<div class="container">
+									<h:commandButton
+										disabled="#{usuarioController.usuario.id != null}"
+										styleClass="btn btn-primary" value="Inserir">
+										<f:ajax listener="#{usuarioController.inserir}" execute="@all"
+											render="@all" event="click">
+										</f:ajax>
+									</h:commandButton>
+
+									<h:commandButton styleClass="btn btn-warning"
+										disabled="#{usuarioController.usuario.id == null}"
+										value="Alterar">
+										<f:ajax listener="#{usuarioController.alterar(obj)}"
+											execute="@all" render="@all" event="click"></f:ajax>
+									</h:commandButton>
+
+
+
+
+								</div>
+								<h:messages id="messages" globalOnly="false"
+									errorStyle="color:red;margin:8px;"
+									infoStyle="color:green;margin:8px;"
+									warnStyle="color:yellow;margin:8px;" />
+
+
+							</h:form>
+
+							<h:form id="formDataTable">
+								<h:dataTable id="dataTable"
+									value="#{usuarioController.listaUsuario}" var="obj">
+									<h:column>
+										<f:facet name="header">Id</f:facet>
+										<h:outputLabel value="#{obj.id}"></h:outputLabel>
+									</h:column>
+									<h:column>
+										<f:facet name="header">Cpf</f:facet>
+										<h:outputLabel value="#{obj.cpf}"></h:outputLabel>
+									</h:column>
+									<h:column>
+										<f:facet name="header">Nome</f:facet>
+										<h:outputLabel value="#{obj.nome}"></h:outputLabel>
+									</h:column>
+									<h:column>
+										<f:facet name="header">Data De Nascimento</f:facet>
+										<h:outputLabel value="#{obj.dataNascimento}"></h:outputLabel>
+									</h:column>
+									<h:column>
+										<f:facet name="header">E-mail</f:facet>
+										<h:outputLabel value="#{obj.email}"></h:outputLabel>
+									</h:column>
+
+									<h:column>
+										<f:facet name="header">Perfil</f:facet>
+										<h:outputLabel value="#{obj.perfil.label}"></h:outputLabel>
+									</h:column>
+									<h:column>
+										<h:commandButton styleClass="btn btn-primary"
+											disabled="#{usuarioController.usuario.id} != null}"
+											value="Selecionar">
+											<f:ajax listener="#{usuarioController.selecionar(obj)}"
+												execute="@all" render="@all"></f:ajax>
+										</h:commandButton>
+									</h:column>
+									<h:column>
+										<h:commandButton styleClass="btn btn-primary"
+											disabled="#{usuarioController.usuario.id} != null}"
+											value="Limpar">
+											<f:ajax listener="#{usuarioController.limpar}" execute="@all"
+												render="@all"></f:ajax>
+										</h:commandButton>
+									</h:column>
+									<h:column>
+										<h:commandButton styleClass="btn btn-danger"
+											disabled="#{storeController.vehicle.id != null}"
+											value="Excluir">
+											<f:ajax listener="#{usuarioController.excluir(obj)}"
+												execute="@all" render="formInput formDataTable"
+												event="click"></f:ajax>
+										</h:commandButton>
+									</h:column>
+
+								</h:dataTable>
+							</h:form>
+						</div>
+					</div>
+
+
+
+				</div>
+
+
+				<div class="form-group"></div>
+
+
+			</div>
+
+
+
+		</h:body>
+	</ui:define>
+</ui:composition>
 </html>

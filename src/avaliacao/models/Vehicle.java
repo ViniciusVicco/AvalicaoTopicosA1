@@ -6,6 +6,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 
+import avaliacao.enums.Estado;
+import avaliacao.enums.TipoPeso;
+import avaliacao.enums.Types;
+
 //import javax.validation.constraints.NotNull;
 //import javax.validation.constraints.Past;
 

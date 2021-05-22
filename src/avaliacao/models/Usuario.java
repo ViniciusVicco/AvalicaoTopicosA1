@@ -3,6 +3,8 @@ package avaliacao.models;
 import java.sql.Date;
 import java.time.LocalDate;
 
+import avaliacao.enums.TipoPerfil;
+
 public class Usuario {
 	
 	private Integer id;
@@ -12,7 +14,7 @@ public class Usuario {
 	private String email;
 	private String login;
 	private String senha;
-	private Tipo perfil;
+	private TipoPerfil perfil;
 	
 	public Integer getId() {
 		return id;
@@ -51,10 +53,10 @@ public class Usuario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	public Tipo getPerfil() {
+	public TipoPerfil getPerfil() {
 		return perfil;
 	}
-	public void setPerfil(Tipo perfil) {
+	public void setPerfil(TipoPerfil perfil) {
 		this.perfil = perfil;
 	}
 	public LocalDate getDataNascimento() {

@@ -11,7 +11,6 @@ public interface DAO<T> {
 	public boolean inserir(T obj);
 	public boolean alterar(T obj);
 	public boolean remover(T obj);
-	public int getCurVal();
 	public List<T> obterTodos();
 	public T obterUm(Integer id);
 	

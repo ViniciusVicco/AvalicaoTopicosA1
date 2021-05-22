@@ -1,28 +1,21 @@
-package avaliacao.models;
+package avaliacao.enums;
 
-public enum TipoPeso {
+public enum Perfil {
 
-	KG(1,"Quilo"),
-	GRAMA(2,"Grama"),
-	LIBRA(3,"Libra"),
-	MILIGRAMA(4,"Miligrama");
+	ADM(1, "Administrador"),
+	ATENDENTE(2, "Atentende");
 	
 	private int index;
 	private String label;
-
-
 	
-	TipoPeso(int index, String label){
+	Perfil(int index, String label){
 		this.index = index;
 		this.label = label;
-		
 	}
-
 
 	public int getIndex() {
 		return index;
 	}
-
 
 	public String getLabel() {
 		return label;
@@ -30,8 +23,4 @@ public enum TipoPeso {
 
 
 	
-
-
-
-
 }

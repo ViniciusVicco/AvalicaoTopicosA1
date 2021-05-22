@@ -2,6 +2,8 @@ package avaliacao.models;
 
 import java.time.LocalDate;
 
+import avaliacao.enums.Perfil;
+
 public class Funcionario {
 
 	public Funcionario(Integer id, LocalDate dataCadastro, String cpf, String senha, boolean ativo, Perfil perfil) {

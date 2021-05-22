@@ -1,4 +1,4 @@
-package avaliacao.models;
+package avaliacao.enums;
 
 public enum Estado {
 

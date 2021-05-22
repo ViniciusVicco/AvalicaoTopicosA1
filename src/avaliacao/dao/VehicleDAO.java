@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import avaliacao.models.Estado;
-import avaliacao.models.Types;
+import avaliacao.enums.Estado;
+import avaliacao.enums.Types;
 import avaliacao.models.Vehicle;
 
 public class VehicleDAO implements DAO<Vehicle> {
@@ -68,7 +68,7 @@ public class VehicleDAO implements DAO<Vehicle> {
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("UPDATE veiculo SET ");
-		sql.append(" valor=?, cor=?, modelo=?, marca=?, tipo=?, estado=? ");
+		sql.append(" valor=?, cor=?, modelo=?, data_lancamento=?, marca=?, tipo=?, estado=? ");
 		sql.append(" WHERE ");
 		sql.append(" id = ? ");
 
@@ -78,10 +78,14 @@ public class VehicleDAO implements DAO<Vehicle> {
 			stat.setInt(1, obj.getValor());
 			stat.setString(2, obj.getCor());
 			stat.setString(3, obj.getModelo());
-			stat.setString(4, obj.getMarca());
-			stat.setInt(5, obj.getTipo().getIndex());
-			stat.setInt(6, obj.getEstadoDeConservacao().getIndex());
-			stat.setInt(7, obj.getId());
+			if (obj.getDataLancamento() == null)
+				stat.setDate(4, null);
+			else
+				stat.setDate(4, Date.valueOf(obj.getDataLancamento()));
+			stat.setString(5, obj.getMarca());
+			stat.setInt(6, obj.getTipo().getIndex());
+			stat.setInt(7, obj.getEstadoDeConservacao().getIndex());
+			stat.setInt(8, obj.getId());
 
 			stat.execute();
 		} catch (SQLException e) {
@@ -119,8 +123,7 @@ public class VehicleDAO implements DAO<Vehicle> {
 		try {
 			stat = conn.prepareStatement(sql.toString());
 			stat.setInt(1, obj.getId());
-
-			ResultSet rs = stat.executeQuery();
+			stat.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -128,13 +131,13 @@ public class VehicleDAO implements DAO<Vehicle> {
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				 success = false;
+				success = false;
 			}
 			try {
 				conn.close();
 			} catch (Exception e) {
 				e.printStackTrace();
-				 success = false;
+				success = false;
 			}
 		}
 		return success;
@@ -248,6 +251,7 @@ public class VehicleDAO implements DAO<Vehicle> {
 		sql.append(" v.valor, ");
 		sql.append(" v.cor, ");
 		sql.append(" v.modelo, ");
+		sql.append(" v.data_lancamento, ");
 		sql.append(" v.marca, ");
 		sql.append(" v.tipo, ");
 		sql.append(" v.estado ");
@@ -268,6 +272,8 @@ public class VehicleDAO implements DAO<Vehicle> {
 				vehicle.setId(rs.getInt("id"));
 				vehicle.setValor(rs.getInt("valor"));
 				vehicle.setCor(rs.getString("cor"));
+				Date data = (rs.getDate("data_lancamento"));
+				vehicle.setDataLancamento(data == null ? null : data.toLocalDate());
 				vehicle.setModelo(rs.getString("modelo"));
 				vehicle.setMarca(rs.getString("marca"));
 				switch (rs.getInt("tipo")) {
@@ -326,49 +332,6 @@ public class VehicleDAO implements DAO<Vehicle> {
 			}
 		}
 		return vehicle;
-	}
-
-	@Override
-	public int getCurVal() {
-		Connection conn = DAO.getConnection();
-
-		int curVal = -1;
-
-		StringBuffer sql = new StringBuffer();
-		sql.append(" SELECT ");
-		sql.append(" v.id ");
-		sql.append(" FROM ");
-		sql.append(" veiculo v ");
-		sql.append(" ORDER BY ");
-		sql.append(" v.id ");
-		sql.append(" DESC LIMIT 1 ");
-		PreparedStatement stat = null;
-		try {
-			stat = conn.prepareStatement(sql.toString());
-			ResultSet rs = stat.executeQuery();
-			while (rs.next()) {
-				
-				curVal = (rs.getInt("id"));
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				curVal = -1;
-			}
-			try {
-				conn.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-				curVal = -1;
-			}
-		}
-		System.out.print("VEICULO ID"+ curVal);
-		return curVal;
 	}
 
 }

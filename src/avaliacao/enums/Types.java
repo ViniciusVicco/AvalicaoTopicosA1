@@ -1,4 +1,4 @@
-package avaliacao.models;
+package avaliacao.enums;
 
 public enum Types {
 	CARRO(1, "Carro"),

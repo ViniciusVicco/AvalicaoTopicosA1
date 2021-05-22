@@ -36,5 +36,14 @@ public class Util {
 		addMessage(message, FacesMessage.SEVERITY_ERROR, null);
 	}
 	
+	/*
+	 * Facelets
+	 * 
+	 * - Insert,
+	 * - Composition,
+	 * - Define,
+	 * - Component,
+	 * - Debug
+	 */
 
 }

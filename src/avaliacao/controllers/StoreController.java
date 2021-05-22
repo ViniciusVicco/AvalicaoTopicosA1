@@ -17,10 +17,11 @@ import javax.inject.Named;
 import avaliacao.dao.DAO;
 import avaliacao.dao.PesoDAO;
 import avaliacao.dao.VehicleDAO;
-import avaliacao.models.Estado;
+import avaliacao.enums.Estado;
+import avaliacao.enums.TipoPeso;
+import avaliacao.enums.Types;
 import avaliacao.models.Peso;
-import avaliacao.models.TipoPeso;
-import avaliacao.models.Types;
+
 import avaliacao.models.Vehicle;
 import avaliacao.utils.Util;
 
@@ -36,12 +37,11 @@ public class StoreController implements Serializable {
 	private List<Vehicle> listVehicles;
 	private Peso peso;
 	DAO vehicleDao = new VehicleDAO();
-	
 
 	public Types[] getListTypes() {
 		return Types.values();
 	}
-	
+
 	public TipoPeso[] getTipoPeso() {
 		return TipoPeso.values();
 	}
@@ -56,8 +56,8 @@ public class StoreController implements Serializable {
 		VehicleDAO dao = new VehicleDAO();
 		if (dao.inserir(getVehicle())) {
 			Util.addInfoMessage("Inclusão realizada com sucesso");
+			listVehicles = dao.obterTodos();
 			clear();
-			
 
 		} else {
 			Util.addFatalMessage("Tivemos um problema ao inserir este registro");
@@ -84,12 +84,11 @@ public class StoreController implements Serializable {
 
 	public void select(Vehicle vehicle) {
 
-		setVehicle((Vehicle) 
-				vehicleDao.obterUm(vehicle.getId()));
+		setVehicle((Vehicle) vehicleDao.obterUm(vehicle.getId()));
 	}
 
 	public void edit() {
-		DAO dao = new VehicleDAO();
+		VehicleDAO dao = new VehicleDAO();
 		// Ta buscando do banco sempre e não alterando
 		if (dao.alterar(getVehicle())) {
 			Util.addInfoMessage("Alterado com sucesso");
@@ -100,14 +99,13 @@ public class StoreController implements Serializable {
 	}
 
 	public void clear() {
-		print("Limpando dados");
+		Util.print("Limpando dados");
 		setVehicle(null);
 	}
 
 	public void remove(Vehicle vehicle) {
 		VehicleDAO dao = new VehicleDAO();
-		
-		if(dao.remover(vehicle)== true) {
+		if (dao.remover(vehicle) == true) {
 			Util.addInfoMessage("Remoção realizada com sucesso");
 			listVehicles = dao.obterTodos();
 		} else {
@@ -115,9 +113,6 @@ public class StoreController implements Serializable {
 		}
 	}
 
-	static void print(String params) {
-		System.out.println(params);
-	}
 
 	public Vehicle getVehicle() {
 		if (vehicle == null) {
