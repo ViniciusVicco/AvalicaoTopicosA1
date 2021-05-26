@@ -36,7 +36,10 @@ public class LoginController implements Serializable {
 	
 	public String entrar() {
 		UsuarioDAO dao = new UsuarioDAO();
-		//faz hash
+		String hash = Util.hash(getUsuario().getSenha() + getUsuario().getLogin());
+		getUsuario().setSenha(hash);
+		
+		
 //		//Usuario usuarioLogado = dao.validarLogin(getUsuario());
 //				if(usuarioLogado != null) {
 //					ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();

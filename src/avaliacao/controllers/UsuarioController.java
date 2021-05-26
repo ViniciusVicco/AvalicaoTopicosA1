@@ -34,7 +34,7 @@ public class UsuarioController implements Serializable {
 		UsuarioDAO dao = new UsuarioDAO();
 		Util.print("Inserindo");
 		if(dao.inserir(usuario)) {
-			Util.addInfoMessage("Inclusão realizada com sucesso");
+			Util.addInfoMessage("Cadastro efetuado com sucesso");
 			limpar();
 			listaUsuario = dao.obterTodos();
 		} else {

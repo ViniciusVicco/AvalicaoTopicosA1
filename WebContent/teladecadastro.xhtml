@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<ui:composition template="/geraTemplate.xhtml">
+	<h:head>
+		<meta charset="utf-8" name="viewport"
+			content="width=device-width, initial-scale=1"
+			http-equiv="X-UA-Conpatible" />
+		<title>Hello, World!</title>
+		<h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+	</h:head>
+	<ui:define name="cabecalho">
+		<h:commandButton value="Voltar para o Login"
+			action="#{menuController.goToLogin}">
+			<f:ajax execute="@this" render="@all"></f:ajax>
+		</h:commandButton>
+		<h1>Cadastre-se</h1>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:body>
+
+			<div class="mw-100">
+
+				<div>
+					<div id="inputFields">
+						<div
+							class="d-flex justify-content-md-center align-items-start vh-100">
+							<h:form id="formInput">
+								<div class="row">
+									<div class="col">
+										<h:outputLabel value="Cpf"></h:outputLabel>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<h:inputText id="cpf" value="#{usuarioController.usuario.cpf}"
+											validatorMessage="Padrão de cpf incorreto, ex: 029.616.431-39">
+											<f:validateRegex
+												pattern="(^[0-9]{3}\.{1}[0-9]{3}\.{1}[0-9]{3}\-{1}[0-9]{2})|([0-9]{11})" />
+										</h:inputText>
+									</div>
+								</div>
+								<div class="col">
+									<h:outputLabel value="Nome"></h:outputLabel>
+								</div>
+
+								<div class="row">
+									<div class="col">
+										<h:inputText id="nome"
+											value="#{usuarioController.usuario.nome}" required="true"
+											requiredMessage="Campo nome não pode ser vazio"></h:inputText>
+									</div>
+								</div>
+								<div class="col">
+									<h:outputLabel value="Data de nascimento"></h:outputLabel>
+								</div>
+
+								<div class="row">
+									<div class="col">
+										<h:inputText id="dataNascimento" pt:placeholder="01/01/2000"
+											value="#{usuarioController.usuario.dataNascimento}"
+											requiredMessage="Campo data de lançamento, pode ser vazio">
+											<f:validateRequired />
+											<f:convertDateTime pattern="dd/MM/yyyy" type="localDate"
+												locale="pt_BR"></f:convertDateTime>
+										</h:inputText>
+									</div>
+								</div>
+								<div class="col">
+									<h:outputLabel value="E-mail"></h:outputLabel>
+								</div>
+								<div class="row">
+									<div class="col">
+										<h:inputText id="email"
+											requiredMessage="Campo e-mail não pode ser vazio"
+											value="#{usuarioController.usuario.email}">
+											<f:validateRequired />
+										</h:inputText>
+									</div>
+								</div>
+								<div class="col">
+									<h:outputLabel value="Login"></h:outputLabel>
+								</div>
+								<div class="row">
+									<div class="col">
+										<h:inputText id="login"
+										requiredMessage="Campo login não pode ser vazio"
+											value="#{usuarioController.usuario.login}">
+											<f:validateRequired />
+										</h:inputText>
+									</div>
+								</div>
+								<div class="col">
+									<h:outputLabel value="Senha"></h:outputLabel>
+								</div>
+								<div class="row">
+									<div class="col">
+										<h:inputSecret id="senha"
+										requiredMessage="Campo senha não pode ser vazio"
+											value="#{usuarioController.usuario.senha}">
+											<f:validateRequired />
+										</h:inputSecret>
+									</div>
+								</div>
+
+
+
+
+
+
+
+								<div class="container">
+									<h:commandButton
+										disabled="#{usuarioController.usuario.id != null}"
+										styleClass="btn btn-success" value="Inserir">
+										<f:ajax listener="#{usuarioController.inserir}"
+											execute="formInput" render="formInput" event="click">
+										</f:ajax>
+									</h:commandButton>
+
+
+
+
+
+								</div>
+								<h:messages id="messages" globalOnly="false"
+									errorStyle="color:red;margin:8px;"
+									infoStyle="color:green;margin:8px;"
+									warnStyle="color:yellow;margin:8px;" />
+
+
+							</h:form>
+
+
+						</div>
+					</div>
+
+
+
+				</div>
+
+
+				<div class="form-group"></div>
+
+
+			</div>
+
+
+
+		</h:body>
+	</ui:define>
+</ui:composition>
+</html>

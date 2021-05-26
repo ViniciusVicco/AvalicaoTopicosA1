@@ -15,7 +15,7 @@
 	<ui:define name="conteudo">
 		<h:body>
 
-			<div class="w-50 p-3">
+			<div class="mw-100">
 				<h1>Cadastre-se</h1>
 				<div>
 					<div id="inputFields">
@@ -120,6 +120,19 @@
 							</h:form>
 
 							<h:form id="formDataTable">
+								<div>
+									<h:outputLabel value="Insira um modelo: "></h:outputLabel>
+									<h:inputText id="filtro"></h:inputText>
+									<h:commandButton value="Filtrar Modelo">
+										<f:ajax execute="formDataTable"
+											render="formInput formDataTable" event="click"></f:ajax>
+									</h:commandButton>
+									<h:commandButton value="Limpar filtro">
+										<f:ajax execute="formDataTable"
+											render="formInput formDataTable" event="click"></f:ajax>
+									</h:commandButton>
+								</div>
+								<br />
 								<h:dataTable id="dataTable"
 									value="#{usuarioController.listaUsuario}" var="obj">
 									<h:column>
