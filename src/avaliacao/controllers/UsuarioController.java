@@ -33,6 +33,7 @@ public class UsuarioController implements Serializable {
 	public void inserir() {
 		UsuarioDAO dao = new UsuarioDAO();
 		Util.print("Inserindo");
+		usuario.setSenha(Util.hash(usuario.getSenha() + usuario.getLogin()));
 		if(dao.inserir(usuario)) {
 			Util.addInfoMessage("Cadastro efetuado com sucesso");
 			limpar();

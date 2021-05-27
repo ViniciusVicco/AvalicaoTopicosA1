@@ -16,6 +16,72 @@ import avaliacao.models.Vehicle;
 
 public class UsuarioDAO implements DAO<Usuario> {
 
+	
+	
+	public Usuario authentication(Usuario usuario) {
+		Connection conn = DAO.getConnection();
+
+		Usuario usuarioLogado = new Usuario();
+
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT ");
+		sql.append(" u.id, ");
+		sql.append(" u.cpf, ");
+		sql.append(" u.nome, ");
+		sql.append(" u.data_nascimento, ");
+		sql.append(" u.email, ");
+		sql.append(" u.login, ");
+		sql.append(" u.senha, ");
+		sql.append(" u.perfil ");
+		sql.append("FROM ");
+		sql.append(" usuario u");
+		sql.append(" WHERE ");
+		sql.append(" u.login=? ");
+		sql.append(" AND ");
+		sql.append(" u.senha=? ");
+		PreparedStatement stat = null;
+		try {
+			stat = conn.prepareStatement(sql.toString());
+			stat.setString(1, usuario.getLogin());
+			stat.setString(2, usuario.getSenha());
+			ResultSet rs = stat.executeQuery();
+			if (rs.next()) {
+
+				usuarioLogado.setId(rs.getInt("id"));
+				usuarioLogado.setCpf(rs.getString("cpf"));
+				usuarioLogado.setNome(rs.getString("nome"));
+				if (rs.getDate("data_nascimento") != null) {
+					usuario.setDataNascimento(rs.getDate("data_nascimento").toLocalDate());
+				}
+				usuarioLogado.setEmail(rs.getString("email"));
+				usuarioLogado.setLogin(rs.getString("login"));
+				usuarioLogado.setSenha(rs.getString("senha"));
+				usuarioLogado.setPerfil(TipoPerfil.fromBd(rs.getInt("perfil")));
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			usuarioLogado = null;
+		} finally {
+			try {
+
+			} catch (Exception e) {
+				e.printStackTrace();
+
+			}
+			try {
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+
+			}
+		}
+
+		return usuarioLogado;
+	}
+
+	
+	
 	@Override
 	public boolean inserir(Usuario obj) {
 		Connection conn = DAO.getConnection();
@@ -72,7 +138,7 @@ public class UsuarioDAO implements DAO<Usuario> {
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("UPDATE usuario SET ");
-		sql.append(" cpf=?, nome=?, data_nascimento=?, email=?, login=?, senha=?, perfil=? ");
+		sql.append(" cpf=?, nome=?, data_nascimento=?, email=?, perfil=? ");
 		sql.append(" WHERE ");
 		sql.append(" id = ? ");
 
@@ -86,10 +152,8 @@ public class UsuarioDAO implements DAO<Usuario> {
 			else
 				stat.setDate(3, Date.valueOf(obj.getDataNascimento()));
 			stat.setString(4, obj.getEmail());
-			stat.setString(5, obj.getLogin());
-			stat.setString(6, obj.getSenha());
-			stat.setInt(7, obj.getPerfil().getIndex());
-			stat.setInt(8, obj.getId());
+			stat.setInt(5, obj.getPerfil().getIndex());
+			stat.setInt(6, obj.getId());
 
 			stat.execute();
 		} catch (SQLException e) {

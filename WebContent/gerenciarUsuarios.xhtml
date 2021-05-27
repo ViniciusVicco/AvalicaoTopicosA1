@@ -16,7 +16,7 @@
 		<h:body>
 
 			<div class="mw-100">
-				<h1>Cadastre-se</h1>
+				<h1>Gerênciar Usuários</h1>
 				<div>
 					<div id="inputFields">
 						<div
@@ -107,6 +107,13 @@
 											execute="@all" render="@all" event="click"></f:ajax>
 									</h:commandButton>
 
+									<h:commandButton styleClass="btn btn-primary"
+										disabled="#{usuarioController.usuario.id} != null}"
+										value="Limpar">
+										<f:ajax listener="#{usuarioController.limpar}" execute="@all"
+											render="@all"></f:ajax>
+									</h:commandButton>
+
 
 
 
@@ -169,9 +176,9 @@
 										</h:commandButton>
 									</h:column>
 									<h:column>
-										<h:commandButton styleClass="btn btn-primary"
-											disabled="#{usuarioController.usuario.id} != null}"
-											value="Limpar">
+										<h:commandButton styleClass="btn btn-success"
+											disabled="#{usuarioController.usuario.perfil.index} == 1}"
+											value="Promover Perfil">
 											<f:ajax listener="#{usuarioController.limpar}" execute="@all"
 												render="@all"></f:ajax>
 										</h:commandButton>
@@ -185,7 +192,6 @@
 												event="click"></f:ajax>
 										</h:commandButton>
 									</h:column>
-
 								</h:dataTable>
 							</h:form>
 						</div>

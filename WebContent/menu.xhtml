@@ -14,14 +14,18 @@
 
 		<h:commandButton value="Acessar Login"
 			action="#{menuController.goToLogin}">
-			<f:ajax execute="@this" render="@all"></f:ajax>
+			<f:ajax execute="@this" render="@form"></f:ajax>
 		</h:commandButton>
 		<h:commandButton value="Cadastrar Automovel"
 			action="#{menuController.goToCadastrar}">
-			<f:ajax execute="@this" render="@all"></f:ajax>
+			<f:ajax execute="@this" render="@form"></f:ajax>
+		</h:commandButton>
+			<h:commandButton value="Gerenciar usuáriosl"
+			action="#{menuController.goToGerenciarUsuarios}">
+			<f:ajax execute="@this" render="@form"></f:ajax>
 		</h:commandButton>
 		<h:commandButton value="Menu" action="#{menuController.goMenu}">
-			<f:ajax execute="@this" render="@all"></f:ajax>
+			<f:ajax execute="@this" render="@form"></f:ajax>
 		</h:commandButton>
 
 

@@ -38,6 +38,13 @@ public class LoginController implements Serializable {
 		UsuarioDAO dao = new UsuarioDAO();
 		String hash = Util.hash(getUsuario().getSenha() + getUsuario().getLogin());
 		getUsuario().setSenha(hash);
+		Usuario usuarioLogado = null;
+		usuarioLogado = dao.authentication(getUsuario());
+		if(usuarioLogado.getId() != null) {
+			return "cadastroautomovel.xhtml";
+		} else {
+			Util.addErrorMessage("Login ou senha incorretos");
+		}
 		
 		
 //		//Usuario usuarioLogado = dao.validarLogin(getUsuario());
@@ -48,7 +55,6 @@ public class LoginController implements Serializable {
 ////					ExternalContext anotherContext = FacesContext.getCurrentInstance().getExternalContext();
 ////					context.getSessionMap().get("usuarioLogado");
 //				}
-		Util.print(usuario.getLogin() + usuario.getSenha());
 		return null;
 		
 	}

@@ -65,6 +65,11 @@ public class Usuario {
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", cpf=" + cpf + ", nome=" + nome + ", dataNascimento=" + dataNascimento
+				+ ", email=" + email + ", login=" + login + ", senha=" + senha + ", perfil=" + perfil + "]";
+	}
 
 	
 }

@@ -30,6 +30,10 @@ public class MenuController implements Serializable {
 	public String goToCadastrarUsuario() {
 		return "teladecadastro";
 	}
+	
+	public String goToGerenciarUsuarios() {
+		return "gerenciarUsuarios";
+	}
 
 	public String goToSistemaEmConstrucao() {
 		return "sistemaemconstrucao";

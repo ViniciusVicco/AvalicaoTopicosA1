@@ -13,7 +13,7 @@
 
 	<h1>Login</h1>
 	<div class="d-flex justify-content-md-center align-items-center vh-100">
-		<h:form>
+		<h:form id="formLogin">
 			<h:messages id="messages" globalOnly="false"
 				errorStyle="color:red;margin:8px;"
 				infoStyle="color:green;margin:8px;"
@@ -25,24 +25,32 @@
 				<tbody>
 					<tr class="loginRow">
 						<td><h:outputLabel value="Login:"></h:outputLabel> <h:inputText
-								value="#{loginController.usuario.login}"></h:inputText></td>
+								id="loginInput" value="#{loginController.usuario.login}"
+								validatorMessage="Login senha não pode ser vazio">
+
+								<f:validateRequired for="loginInput" />
+							</h:inputText></td>
 
 					</tr>
 				</tbody>
 				<tr class="senhaRow">
-					<td><h:outputLabel value="Senha:"></h:outputLabel> <h:inputText value="#{loginController.usuario.senha}"></h:inputText>
-					</td>
+					<td><h:outputLabel value="Senha:"></h:outputLabel> <h:inputText
+							value="#{loginController.usuario.senha}"
+							validatorMessage="Campo senha não pode ser vazio e deve conter ao menos 6 caracteres">
+							<f:validateLength minimum="6"></f:validateLength>
+						</h:inputText></td>
 				</tr>
 				<tr class="senhaRow">
-					<td><h:commandButton value="Login" action="#{loginController.entrar}"></h:commandButton> <h:commandButton
-							value="Cadastrar-se" action="#{menuController.goToCadastrarUsuario}"></h:commandButton></td>
+					<td><h:commandButton value="Login"
+							action="#{loginController.entrar}">
+							<f:ajax execute="formLogin" render="formLogin"></f:ajax>
+						</h:commandButton> <h:commandButton value="Cadastrar-se"
+							action="#{menuController.goToCadastrarUsuario}">
+											<f:ajax execute="@this" render="@form"></f:ajax>
+						</h:commandButton></td>
 				</tr>
 			</table>
 
-
-
-			<h:messages>
-			</h:messages>
 		</h:form>
 		<h:panelGroup id="panelGroup">
 
